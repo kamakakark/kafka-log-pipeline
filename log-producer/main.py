@@ -6,7 +6,7 @@ import re
 
 
 def consume_logs():
-    f = open("/Users/a569514/Downloads/others/foobar.txt", "r")
+    f = open("foobar.txt", "r")
     # f = open("foobar.txt", "r")
 
     producer = KafkaProducer(
