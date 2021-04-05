@@ -1,54 +1,66 @@
-# coding=utf-8
-# This is a sample Python script.
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-'''
-from kafka import KafkaConsumer
+import os
+import sys
+from datetime import datetime
 from json import loads
-from time import sleep
 
-
-
-consumer = KafkaConsumer(
-    'logging_topic_2',
-    bootstrap_servers=['localhost:9092'],
-    auto_offset_reset='earliest',
-    enable_auto_commit=True,
-    group_id='my-group-id-6',
-    value_deserializer=lambda x: loads(x.decode('utf-8'))
-)
+from kafka import KafkaConsumer
+from kafka.errors import KafkaError
 
 dict_cnt= {}
-THRESHOLD_VALUE=3
-writeFile = open("foobar2.txt", "a")
+THRESHOLD_VALUE=50
+KAFKA_GROUP_ID='my-group-id-8'
+TOPIC_NAME='logging_topic_4'
 
-for event in consumer:
-    event_data = event.value
-    # Do whatever you want
-    ip = event_data['ip']
+def kafka_consumer(bootstrap_server):
 
-    if(ip in dict_cnt.keys()):
-       dict_cnt[ip] += 1
+    try:
+        return KafkaConsumer(
+            TOPIC_NAME,
+            bootstrap_servers=[bootstrap_server],
+            auto_offset_reset='earliest',
+            enable_auto_commit=True,
+            group_id=KAFKA_GROUP_ID,
+            value_deserializer=lambda x: loads(x.decode('utf-8'))
+        )
+
+    except KafkaError as ex:
+        print("Exception during consuming topic - {}".format(ex))
+
+def ddos_detecctor(bootstrap_server, output_file):
+
+    if os.path.isfile(output_file):
+        consumer = kafka_consumer(bootstrap_server)
+        writeFile = open(output_file, "a")
+        datetime_for_header= str(datetime.now())
+        writeFile.write(datetime_for_header + "\n")
+
+        for event in consumer:
+            if(event != None):
+                event_data = event.value
+                ip=event_data.split(" ")[0]
+                if(ip in dict_cnt.keys()):
+                    dict_cnt[ip] += 1
+                    if(dict_cnt[ip] == THRESHOLD_VALUE):
+                        print("DDOS Attack Detected for ip - {}".format(ip))
+                        writeFile.write(ip + "\n")
+                else:
+                    dict_cnt[ip] = 1
+        writeFile.close()
 
     else:
-       dict_cnt[ip] = 1
+        print("Provided path does not exists : {}".format(output_file))
 
-    if(dict_cnt[ip] == THRESHOLD_VALUE):
-      writeFile.write(ip + "\n")
+def main(arguments):
+    print("bootstrap-server  - {}".format(arguments[1]))
+    print("Output-file - {}".format(arguments[2]))
+    ddos_detecctor(arguments[1], arguments[2])
 
-      print(ip + "  ----->  " + str(dict_cnt[ip]))
-
-f.close()
-'''
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print("Hi, {0}".format(name))  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    if len(sys.argv) == 3:
+        main(sys.argv[0:])
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    else:
+        print('Argument syntax error.\nProgram syntax: python main.py <bootstrap_server> <input_file_path> '
+              '\n example python main.py  localhost:9092 filpath.txt')
+        sys.exit(1)
