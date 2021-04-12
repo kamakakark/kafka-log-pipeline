@@ -11,7 +11,7 @@ from kafka.errors import KafkaError
 
 sourceFolder = '/Users/a569514/development/kafka-log-pipeline/files/source'
 destinationFolder = '/Users/a569514/development/kafka-log-pipeline/files/destination'
-kafka_topic_name = "test-topic-3"
+kafka_topic_name = "test-topic-4"
 kafka_bootstrap_servers = ["localhost:9092"]
 
 kafka_producer_obj = KafkaProducer(bootstrap_servers=kafka_bootstrap_servers, value_serializer=lambda v: json.dumps(v). \

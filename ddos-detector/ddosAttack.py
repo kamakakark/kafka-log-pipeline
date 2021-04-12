@@ -4,7 +4,7 @@ from pyspark.sql.functions import col, from_json, to_date, concat_ws, count, win
 from pyspark.sql.types import *
 import sys
 
-kafka_topic_name = "test-topic-3"
+kafka_topic_name = "test-topic-4"
 kafka_bootstrap_servers = "localhost:9092"
 checkpoint_location = "file:///Users/a569514/development/kafka-log-pipeline/output-files/checkpoint"
 hdfs_filepath = "file:///Users/a569514/development/kafka-log-pipeline/output-files/hdfs"
@@ -37,7 +37,8 @@ def get_kafka_stream():
 def ddos_detecctor(ip_threshold, time_window):
 
     try:
-        proccess_time = time_window.strip + " minutes"
+        proccess_time = str(time_window) + " minutes"
+        print("time "+proccess_time)
         # Reading message from kafka
         kafkaStream =  get_kafka_stream()
 
