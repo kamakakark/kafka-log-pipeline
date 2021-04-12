@@ -9,12 +9,9 @@ from watchdog.events import FileSystemEventHandler
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
 
-# sourceFolder = '/home/hdpadmin/karthik_work/trail/sourceLogs/'
-# destinationFolder = '/home/hdpadmin/karthik_work/trail/destinationLogs/'
-
-sourceFolder = '/Users/a569514/development/kafka-log-pipeline/log/source'
-destinationFolder = '/Users/a569514/development/kafka-log-pipeline/log/destination'
-kafka_topic_name = "test-topic-1"
+sourceFolder = '/Users/a569514/development/kafka-log-pipeline/files/source'
+destinationFolder = '/Users/a569514/development/kafka-log-pipeline/files/destination'
+kafka_topic_name = "test-topic-3"
 kafka_bootstrap_servers = ["localhost:9092"]
 
 kafka_producer_obj = KafkaProducer(bootstrap_servers=kafka_bootstrap_servers, value_serializer=lambda v: json.dumps(v). \

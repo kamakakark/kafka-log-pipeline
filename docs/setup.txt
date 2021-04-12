@@ -1,0 +1,39 @@
+
+spark version used is spark 3.0.2 with hadoop3.2
+
+steps to install:
+
+
+1) Download spark 3.0.2 version with hadoop3.2
+
+Download link for the same
+
+https://www.apache.org/dyn/closer.lua/spark/spark-3.0.2/spark-3.0.2-bin-hadoop3.2.tgz
+
+2) After downloading extract to required directory and rename folder to spark3
+
+3) Now Edit .bashrc file and below (please modify folder path as per yours)
+
+export SPARK_HOME=/Users/a569514/development/spark-3.0.2-bin-hadoop3.2
+export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.4-src.zip:$PYTHONPATH
+export PATH=$SPARK_HOME/bin:$SPARK_HOME/python:$PATH
+
+export PYSPARK_PYTHON=/usr/local/bin/python3
+
+
+4) To run commands inside python spark shell type as below
+
+pyspark --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.2
+
+5) To run with python script using spark-submit run as below:
+
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.2 <filepath + pythonscript name>
+
+
+
+
+example: (argument1, agrument2, argument3 for bootstrap server, threshold and window_time respectively)
+
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.2 /Users/a569514/development/kafka-log-pipeline/ddos-detector/ddosAttack.py "localhost:9092" "jsonmsg2" "5" --master local[*]
+
+Note: Remember we are using checkpoint directory for kafkatopic, if you want to run on different kafkatopic then you need to give new  checkpoint directory name or delete old checkpoint directory else it will throw error.
