@@ -1,0 +1,7 @@
+2021-04-11 17:21:00 - queue_event <FileCreatedEvent: event_type=created, src_path='/Users/a569514/development/kafka-log-pipeline/log/source/foobar.txt', is_directory=False>
+2021-04-11 17:21:00 - queue_event <DirModifiedEvent: event_type=modified, src_path='/Users/a569514/development/kafka-log-pipeline/log/source', is_directory=True>
+2021-04-11 17:21:00 - File /Users/a569514/development/kafka-log-pipeline/log/source/foobar.txt was just created
+2021-04-11 17:21:00 - queue_event <FileModifiedEvent: event_type=modified, src_path='/Users/a569514/development/kafka-log-pipeline/log/source/foobar.txt', is_directory=False>
+2021-04-11 17:21:00 - <BrokerConnection node_id=0 host=192.168.0.11:9092 <connecting> [IPv4 ('192.168.0.11', 9092)]>: connecting to 192.168.0.11:9092 [('192.168.0.11', 9092) IPv4]
+2021-04-11 17:21:00 - <BrokerConnection node_id=0 host=192.168.0.11:9092 <connecting> [IPv4 ('192.168.0.11', 9092)]>: Connection complete.
+2021-04-11 17:21:00 - <BrokerConnection node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Closing connection. 
