@@ -1,4 +1,5 @@
 from kafka.errors import KafkaError
+from pyspark import rdd
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, from_json, to_date, concat_ws, count, window
 from pyspark.sql.types import *
@@ -19,7 +20,7 @@ logSchema = StructType([StructField("remote_ip", StringType(), True), StructFiel
 
 def get_spark_session():
     try:
-        spark = SparkSession.builder.appName("Find IP of DDOS attacks ").config("spark.streaming.stopGracefullyOnShutdown",                                                                            True).getOrCreate()
+        spark = SparkSession.builder.appName("Find IP of DDOS attacks ").config("spark.streaming.stopGracefullyOnShutdown", True).getOrCreate()
         spark.sparkContext.setLogLevel("ERROR")
         spark.conf.set("spark.sql.shuffle.partitions", 10)
         return spark
@@ -54,7 +55,7 @@ def ddos_detecctor(ip_threshold, time_window):
             agg(count("remote_ip").alias("Num_of_attacks")). \
             select(col("window.start").alias("start_time"), col("remote_ip"), col("Num_of_attacks"))
 
-        countDF.writeStream.format("console").outputMode("update").start()
+        #countDF.writeStream.format("console").outputMode("update").start()
         # considering remote_ip who tried to access more than 5 times in 2 minutes are considered as DDOS attacks and writing it into CSV file
 
         ddos_attacks = countDF.filter(col("Num_of_attacks") >= int(ip_threshold))

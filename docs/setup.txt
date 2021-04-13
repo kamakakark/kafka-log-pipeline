@@ -25,13 +25,24 @@ export PYSPARK_PYTHON=/usr/local/bin/python3
 
 pyspark --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.2
 
-5) To run with python script using spark-submit run as below:
+
+
+5) kafka Running
+
+->  Start ZooKeeper server by using shell and default properties:
+    bin/zookeeper-server-start.sh config/zookeeper.properties
+->  start the kafka server
+    bin/kafka-server-start.sh config/server.properties
+-> Create a Topic
+    bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test-topic-3
+
+6) To run with python script using spark-submit run as below:
 
 for log-producer
 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.2 <path>/sendLogsToKafka.py
 
 for ddos-attack
 example: (argument1, agrument2, argument3 for bootstrap server, threshold and window_time respectively)
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.2 /Users/a569514/development/kafka-log-pipeline/ddos-detector/ddosAttack.py "2" "10"
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.2 /Users/a569514/development/kafka-log-pipeline/ddos-detector/ddosAttack.py "1" "1"
 
 Note: Remember we are using checkpoint directory for kafkatopic, if you want to run on different kafkatopic then you need to give new  checkpoint directory name or delete old checkpoint directory else it will throw error.
