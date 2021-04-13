@@ -5,3 +5,5 @@
 2021-04-12 20:25:46 - <BrokerConnection node_id=0 host=192.168.0.11:9092 <connecting> [IPv4 ('192.168.0.11', 9092)]>: connecting to 192.168.0.11:9092 [('192.168.0.11', 9092) IPv4]
 2021-04-12 20:25:46 - <BrokerConnection node_id=0 host=192.168.0.11:9092 <connecting> [IPv4 ('192.168.0.11', 9092)]>: Connection complete.
 2021-04-12 20:25:46 - <BrokerConnection node_id=bootstrap-0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>: Closing connection. 
+2021-04-12 21:02:15 - queue_event <FileDeletedEvent: event_type=deleted, src_path='/Users/a569514/development/kafka-log-pipeline/files/source/foobar4.txt', is_directory=False>
+2021-04-12 21:02:15 - queue_event <DirModifiedEvent: event_type=modified, src_path='/Users/a569514/development/kafka-log-pipeline/files/source', is_directory=True>
